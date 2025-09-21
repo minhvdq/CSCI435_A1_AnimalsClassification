@@ -2,4 +2,6 @@ opencv-contrib-python
 scikit-image
 numpy
 matplotlib
+scikit-learn
+seaborn
 
