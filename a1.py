@@ -50,7 +50,7 @@ def split_train_test(classes, paths_by_class, train_ratio=0.8):
                 y_t.append(ci)
     return X_tr, np.array(y_tr, np.int32), X_t, np.array(y_t, np.int32)
 
-def build_vocabulary(image_paths, n_clusters=200, mx_des_per_image=300):
+def build_vocabulary(image_paths, n_clusters=400, mx_des_per_image=300):
     """
         Build the vocab words for training images
     """
@@ -104,10 +104,12 @@ def build_histogram(descriptors, vocabulary):
         hist /= n
     return hist
 
-def train_linear_svm(Xtr, ytr, C=1.0):
+def train_linear_svm(Xtr, ytr, C=2.0):
     """
         Train a linear multi-class SVM using OpenCV (one-vs-one internally).
     """
+
+    print("C is ", C)
     svm = cv.ml.SVM_create()
     svm.setType(cv.ml.SVM_C_SVC)
     svm.setKernel(cv.ml.SVM_LINEAR)
@@ -127,7 +129,7 @@ def svm_predict(svm, X):
     return yhat.ravel().astype(np.int32)
 
 
-def run_sift_svm(X_train, X_test, y_train, y_test, n_clusters=200, mx_des_per_image=300, C=1.0):
+def run_sift_svm(X_train, X_test, y_train, y_test, n_clusters=200, mx_des_per_image=300, C=2.0):
     """
         One run of SIFT-BoVW + Linear SVM on a given split.
     """
